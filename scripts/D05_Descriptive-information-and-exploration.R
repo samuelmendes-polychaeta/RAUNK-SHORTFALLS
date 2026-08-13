@@ -1,5 +1,5 @@
 #' =============================================================================
-#  Supplementary information and exploration of data
+#  Descriptive information and exploration of data
 #' =============================================================================
 
 

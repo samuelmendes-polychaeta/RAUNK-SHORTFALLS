@@ -87,7 +87,7 @@ publications_by_year <- ggplot(
       vjust = 0.5
     ),
     legend.position = "bottom"
-  )
+  );publications_by_year
 
 
 # -------------
@@ -150,33 +150,7 @@ map = ggplot(map_data) +
 
 
 # -------------
-#d. Production by countries
-#---------------
-
-df_countries <- as.data.frame(results$Countries)
-
-
-colnames(df_countries) <- c("Country", "Frequency")
-
-# Organizing by rank (ex: top 10)
-df_top <- df_countries %>%
-  arrange(desc(Frequency)) %>%
-  slice_head(n = 10)
-
-ggplot(df_top, aes(x = reorder(Country, Frequency), y = Frequency)) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  labs(
-    title = "Países mais produtivos",
-    x = "País",
-    y = "Número de publicações"
-  ) +
-  theme_classic()
-
-
-
-# -------------
-#e. Social structure of the field
+#d. Social structure of the field
 #---------------
 
 

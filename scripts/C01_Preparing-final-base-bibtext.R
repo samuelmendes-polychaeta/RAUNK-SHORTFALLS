@@ -92,14 +92,6 @@ cat("Total first_merge:", nrow(first_merge), "\n")
 dois_data  <- str_trim(str_to_lower(data$DOI)) 
 dois_firstmerge <- str_trim(str_to_lower(first_merge$DI))
 
-# ---------------------------------------------------------
-# 7. Check for differences in the downloaded .bibtext from the screened papers
-# ---------------------------------------------------------
-
-#The papers were manually screened 
-#The bibtext was downloaded after it, so some of them can be missing
-
-
 # Missing papers
 lacking_in_firstmerge <- setdiff(dois_data, dois_firstmerge)
 
@@ -109,39 +101,10 @@ extras_from_firstmerge <- setdiff(dois_firstmerge, dois_data)
 cat("Missing from final base:", length(lacking_in_firstmerge), "\n")
 cat("Excedent from final base:", length(extras_from_firstmerge), "\n")
 
-#So, we have to re-download them from Scopus as they were from it
-
-
-# ---------------------------------------------------------
-# 8. Are some references missing in the exported bibtext?
-# ---------------------------------------------------------
-
-missing <- data %>%
-  filter(str_to_lower(DOI) %in% lacking_in_firstmerge)
-
-
-# ---------------------------------------------------------
-# 9. Exporting (optional)
-# ---------------------------------------------------------
-
-write.csv(artigos_faltantes, "missing.csv", row.names = FALSE)
-
-
-# ---------------------------------------------------------
-# 10. Including missing DOI's (retrieved from scopus)
-# ---------------------------------------------------------
-
-missing <- convert2df(
-  "data/MISSING.bib",
-  dbsource = "scopus",
-  format = "bibtex"
-)
-
 
 final_base_bbmetrix<- mergeDbSources(
   scopus_final, 
   wos_final_cc,
-  missing,
   remove.duplicated = TRUE
 ) 
 

@@ -50,7 +50,7 @@ dois_wos <- data %>%
 # ---------------------------------------------------------
 
 scopus_full <- convert2df(
-  "SCOPUS_Apr_9_26.bib",
+  "data/SCOPUS_Apr_9_26.bib",
   dbsource = "scopus",
   format = "bibtex"
 )#5096 dataset without references
@@ -64,7 +64,7 @@ scopus_final <- scopus_full %>%
 # ---------------------------------------------------------
 
 wos_corecollection <- convert2df(
-  "WOS_Apr_9_26.bib",
+  "data/WOS_Apr_9_26.bib",
   dbsource = "wos",
   format = "bibtex"
 ) #All fields, Core Collection (cc)
@@ -96,14 +96,21 @@ dois_firstmerge <- str_trim(str_to_lower(first_merge$DI))
 # 7. Check for differences in the downloaded .bibtext from the screened papers
 # ---------------------------------------------------------
 
+#The papers were manually screened 
+#The bibtext was downloaded after it, so some of them can be missing
+
+
 # Missing papers
 lacking_in_firstmerge <- setdiff(dois_data, dois_firstmerge)
 
-# Artigos extras
+# Extra ?
 extras_from_firstmerge <- setdiff(dois_firstmerge, dois_data)
 
 cat("Missing from final base:", length(lacking_in_firstmerge), "\n")
 cat("Excedent from final base:", length(extras_from_firstmerge), "\n")
+
+#So, we have to re-download them from Scopus as they were from it
+
 
 # ---------------------------------------------------------
 # 8. Are some references missing in the exported bibtext?
@@ -125,7 +132,7 @@ write.csv(artigos_faltantes, "missing.csv", row.names = FALSE)
 # ---------------------------------------------------------
 
 missing <- convert2df(
-  "MISSING.bib",
+  "data/MISSING.bib",
   dbsource = "scopus",
   format = "bibtex"
 )
